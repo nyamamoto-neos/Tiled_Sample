@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="7">
+ <editorsettings>
+  <export target="page01_map.lua" format="lua"/>
+ </editorsettings>
+ <tileset firstgid="1" source="page01_img.tsx"/>
+ <tileset firstgid="5" source="page01_tileset.tsx"/>
+ <imagelayer id="2" name="mapImg" visible="0" locked="1">
+  <image source="../../assets/images/p1/map.png" width="480" height="320"/>
+ </imagelayer>
+ <layer id="1" name="tileLayer" width="30" height="20" locked="1">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,5,5,5,5,5,5,5,5,5,5,0,0,
+0,0,5,0,0,0,0,0,0,0,0,0,0,5,0,0,0,5,0,0,0,0,0,0,0,0,0,5,0,0,
+0,0,5,0,0,0,0,0,0,0,0,0,0,5,0,0,0,5,0,0,0,0,0,0,0,0,0,5,0,0,
+0,0,5,5,5,5,5,5,5,5,5,0,0,5,0,0,0,0,0,0,0,5,0,0,5,5,5,5,0,0,
+0,0,5,0,0,0,0,0,0,0,5,0,0,5,0,0,0,0,0,0,0,5,0,0,5,0,0,5,0,0,
+0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,5,0,0,
+0,0,5,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,5,0,0,
+0,0,5,0,0,0,5,0,0,0,5,5,5,0,0,0,0,0,5,5,5,5,0,0,0,0,0,5,0,0,
+0,0,5,0,0,0,5,0,0,0,0,5,5,0,0,0,0,0,0,0,0,5,0,0,0,0,0,5,0,0,
+0,0,5,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,0,0,5,0,0,5,0,0,5,0,0,
+0,0,5,0,0,0,5,5,5,5,0,0,5,5,5,0,0,5,0,0,5,5,5,5,5,0,0,5,0,0,
+0,0,5,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,5,0,0,
+0,0,5,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,5,0,0,
+0,0,5,5,5,5,5,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="3" name="objectLayer" visible="0" locked="1">
+  <object id="1" name="item" gid="7" x="78.3633" y="79.7825" width="16" height="16">
+   <properties>
+    <property name="isAnimated" value="true"/>
+   </properties>
+  </object>
+  <object id="2" gid="6" x="303.805" y="131.376" width="16" height="16"/>
+  <object id="3" gid="6" x="95.1873" y="255.874" width="16" height="16"/>
+  <object id="4" gid="6" x="160.801" y="93.2417" width="16" height="16"/>
+  <object id="5" name="walker" gid="4" x="114.255" y="304.103" width="16" height="16">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="hasBody" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="6" name="centerBlock" gid="1" x="229.286" y="174.491" width="54" height="54"/>
+ </objectgroup>
+</map>

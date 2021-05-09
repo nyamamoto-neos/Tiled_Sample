@@ -1,0 +1,64 @@
+<project id="Tiled_Sample">
+  <settings>
+    <name>Tiled_Sample</name>
+    <media>Book</media>
+    <device>Ultimate Config</device>
+    <OS>all</OS>
+    <zoom>letterbox</zoom>
+    <width>1920</width>
+    <height>1280</height>
+    <orientation>Landscape</orientation>
+    <resolution>264</resolution>
+    <bookmark>false</bookmark>
+    <swipe>true</swipe>
+    <pinch>false</pinch>
+    <thumbs>false</thumbs>
+  </settings>
+  <pages>
+    <page id="page1">
+      <name>page1</name>
+      <number>1</number>
+      <file>~\Documents\Kwik/Tiled_Sample/page1.psd</file>
+      <fileName>page1.psd</fileName>
+      <anim id="wRotation_block">
+        <name>wRotation_block</name>
+        <target>Layer</target>
+        <type>Rotation</type>
+        <layer>block</layer>
+        <layerSet/>
+        <endX>852</endX>
+        <endY>532</endY>
+        <endAlpha>100</endAlpha>
+        <duration>10</duration>
+        <delay>0</delay>
+        <event>When page starts</event>
+        <reStart>false</reStart>
+        <easing>Linear</easing>
+        <rotate>360</rotate>
+        <scaleW>100</scaleW>
+        <scaleH>100</scaleH>
+        <anchor>MiddleCenter</anchor>
+        <linearLoop>forever</linearLoop>
+        <linearReverse>false</linearReverse>
+      </anim>
+      <code id="code_hide">
+        <name>code_hide</name>
+        <code/>
+        <position>disposal</position>
+        <extFile>~/Documents/Kwik/Tiled_Sample/ext/hide_tiled.lua</extFile>
+      </code>
+      <code id="code_create">
+        <name>code_create</name>
+        <code/>
+        <position>middle</position>
+        <extFile>~/Documents/Kwik/Tiled_Sample/ext/create_tiled.lua</extFile>
+      </code>
+      <code id="code_show">
+        <name>code_show</name>
+        <code/>
+        <position>bottom</position>
+        <extFile>~/Documents/Kwik/Tiled_Sample/ext/show_tiled.lua</extFile>
+      </code>
+    </page>
+  </pages>
+</project>

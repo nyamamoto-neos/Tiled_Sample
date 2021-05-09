@@ -1,0 +1,23 @@
+{
+    "page":1,"alias":"page1","isTmplt":false,
+    "audios":[null],
+    "read2me":[null],
+    "videos":[null],
+    "PNGs":[null],
+    "sprites":[null],
+    "particles":[null],
+    "WWW":[null],
+    "thumbnails":[null],
+    "images":[
+                 "map@4x.png", "map@2x.png", "map.png",
+                 "block@4x.png", "block@2x.png", "block.png",
+                 "outerradius@4x.png", "outerradius@2x.png", "outerradius.png",
+                 "innerradius@4x.png", "innerradius@2x.png", "innerradius.png",
+                 "walker@4x.png", "walker@2x.png", "walker.png",
+                 "tileset@4x.png", "tileset@2x.png", "tileset.png",
+        null
+    ],
+    "shared":[
+        null
+    ]
+}

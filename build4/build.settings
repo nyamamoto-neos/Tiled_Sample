@@ -1,0 +1,44 @@
+settings =
+{
+  plugins  =
+  {
+    },
+  android  =
+  {
+    usesPermissions  =
+    {
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      },
+    usesFeatures =
+    {
+      },
+  },
+  orientation =
+  {
+  default = "landscapeRight",
+      supported = { "landscapeLeft", "landscapeRight" },
+  },
+  iphone =
+  {
+    xcassets = "Images.xcassets",
+    plist=
+    {
+            NSAppTransportSecurity = {
+          NSExceptionDomains = {
+                          [""] = {
+                  NSIncludesSubdomains = true,
+                  NSThirdPartyExceptionAllowsInsecureHTTPLoads = true
+              },
+            }
+      },
+      UIStatusBarHidden = true,
+      UILaunchStoryboardName = "LaunchScreen",
+      },
+  },
+  excludeFiles =
+    {
+        -- Exclude all files at all paths which end with "secret.txt"
+        all = {  "Icon*.png", "Images.xcassets", "Icon*.ico", "Icon*.icns", "*.vbs", "*.bat", "*.command" },
+        android = { "LaunchScreen.storyboardc" },
+    },
+}
