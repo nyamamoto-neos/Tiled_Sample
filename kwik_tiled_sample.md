@@ -191,6 +191,7 @@ create_tiled.lua has the following features
 
 - load the tiled map
 - **joystick** controls walker
+    - mouse or use keys(W, A, S, D)
 - place **block layer** that animates wRotation_block to the location of centerBlock defined in the tiled map
     - centerBlock of the tiled map is removed.
 

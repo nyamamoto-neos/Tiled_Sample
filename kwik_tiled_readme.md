@@ -1,5 +1,7 @@
 # Kwik with Tiled
 
+<img src="img/2021-05-09-15-10-31.png" width="600">
+
 Photoshop
 
 1. Draw a map and objects - A
