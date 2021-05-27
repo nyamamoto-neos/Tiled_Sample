@@ -189,7 +189,7 @@ end
 -- @param tileset The object which contains information about tileset.
 -- @return The newly created image sheet.
 --------------------------------------------------------------------------------   
-local function createImageSheet( tileset )
+local function createImageSheet( tileset, systemDir )
 
 	local options, name
 
@@ -235,7 +235,7 @@ local function createImageSheet( tileset )
 
 	local directory = tileset.directory .. ( name or '' ) 
 	print ("createImageSheet", directory)
-	return graphics.newImageSheet( directory, options )
+	return graphics.newImageSheet( directory,systemDir, options )
 
 end
 
@@ -390,7 +390,7 @@ local function buildProperties( cache, tileset )
 	}
 
 	for _, tile in ipairs(tiles) do
-		print("", tile.id, tile.type)
+		print("", tile.id, tile.image)
 		local properties = tile.properties
 
 		if properties then
@@ -492,7 +492,7 @@ end
 -- @param cache A table that stores GID, image_names, tileset_names for lookup 
 -- @param tilesets The tileset data to load
 -------------------------------------------------------------------------------- 
-local function loadTilesets( cache, tilesets )
+local function loadTilesets( cache, tilesets, systemDir, tilesets_dir )
 
 	for _, tileset in ipairs(tilesets) do
 		local firstgid = tileset.firstgid
@@ -500,7 +500,7 @@ local function loadTilesets( cache, tilesets )
 
 		if tileset.image then 
 
-			local sheet = createImageSheet( tileset )
+			local sheet = createImageSheet( tileset, systemDir )
 
 			for gid = firstgid, lastgid do
 
@@ -525,6 +525,15 @@ local function loadTilesets( cache, tilesets )
 				assert( not cache.images[gid] or not cache.tilesets[gid],
 					"Duplicate key in cache detected" 
 				)
+
+						--
+				-- Kwik BookShelfEmbedded replaces tileset.image path '../../assets/images/p1/map.png' 
+				-- for 'book01en/images/p1/map.png' in _K.systemDir
+				---
+				if tilesets_dir and systemDir then
+					tile.image = tile.image:gsub('../../assets', '')
+				end
+
 				cache.images[gid] = {
 					path = tileset.directory .. tile.image,
 					width = tile.width,
@@ -547,9 +556,9 @@ end
 -- @param cache A table that stores GID, image_names, tileset_names for lookup 
 -- @param texture_pack The sprites from a texture_pack file.
 -------------------------------------------------------------------------------- 
-local function cacheTexturePack( cache, texture_pack )
+local function cacheTexturePack( cache, texture_pack, systemDir )
 
-	local sheet = createImageSheet( texture_pack )
+	local sheet = createImageSheet( texture_pack, systemDir )
 
 	for image_name, i in pairs(texture_pack.frameIndex) do
 
@@ -595,9 +604,9 @@ end
 -- @param cache A table that stores GID, image_names, tileset_names for lookup 
 -- @param directory A directory to scan for texturepacker lua files
 -------------------------------------------------------------------------------- 
-local function loadTexturePacker( cache, directory )
+local function loadTexturePacker( cache, directory, systemDir )
 
-    local path = system.pathForFile( directory, system.ResourceDirectory ) 
+    local path = system.pathForFile( directory, systemDir ) 
 
 	for file in lfs.dir( path ) do
 
@@ -625,7 +634,7 @@ local function loadTexturePacker( cache, directory )
 
 				texture_pack.directory = directory .. '/' .. image_file_name
 
-				cacheTexturePack( cache, texture_pack )
+				cacheTexturePack( cache, texture_pack , systemDir)
 
 			end
 
@@ -722,7 +731,7 @@ end
 -- @param gid The GID of the tile to use
 -- @param layer The map layer tile will be placed in 
 --------------------------------------------------------------------------------
-local function createTile( map, position, gid, layer )
+local function createTile( map, position, gid, layer, systemDir )
 	-- Get the correct tileset using the GID
 	local tileset = getTileset( map.cache.tilesets, gid )
 	if tileset then
@@ -761,7 +770,7 @@ local function createTile( map, position, gid, layer )
           	
           	local image_w, image_h = getImageSize( map.cache.images, gid )
           	local path = getImagePath( map.cache.images, gid )
-          	image = display.newImageRect( layer, path, image_w, image_h )
+          	image = display.newImageRect( layer, path, systemDir, image_w, image_h )
 
 		end	
 
@@ -907,7 +916,7 @@ end
 -- @param object The object that will be inserted
 -- @param layer The map layer the object will be placed in 
 --------------------------------------------------------------------------------
-local function createObject( map, object, layer )
+local function createObject( map, object, layer, systemDir )
     -- Store the flipped states
     local flip = {}
     local image
@@ -950,7 +959,7 @@ local function createObject( map, object, layer )
 				if animation then
 					print("", "animation")
 					image = display.newSprite( layer, 
-											   image_sheet, 
+											   image_sheet,
 											   tileset.sequence_data )
 
 					image:setSequence( animation )
@@ -965,7 +974,7 @@ local function createObject( map, object, layer )
 
 				else
 
-					image = display.newImageRect( layer, image_sheet, 
+					image = display.newImageRect( layer, image_sheet,
 												  frame, width, height )
 
 				end
@@ -973,7 +982,7 @@ local function createObject( map, object, layer )
 			else 
 
           		local path = getImagePath( map.cache.images, object.gid )
-				image = display.newImageRect( layer, path, width, height ) 
+				image = display.newImageRect( layer, path, systemDir, width, height ) 
 
 			end
 
@@ -1118,7 +1127,7 @@ local function createObject( map, object, layer )
 		local width, height = getImageSize( map.cache.texture_packs, 
 											object.texture )
 
-		image = display.newImageRect( layer, image_sheet, frame, width, height )
+		image = display.newImageRect( layer, image_sheet,systemDir, frame, width, height )
 		image.x, image.y = object.x, object.y
 
 	elseif object.text then
@@ -1244,7 +1253,8 @@ end
 -- @return The newly created map.
 --------------------------------------------------------------------------------
 
-function Map:new( filename, tilesets_dir, texturepacker_dir, _lua_dir )
+function Map:new( filename, tilesets_dir, texturepacker_dir, _lua_dir, systemDir )
+	Map.systemDir = systemDir
 
 	local lua_dir = _lua_dir or ""
 	-- Read map file
@@ -1282,7 +1292,17 @@ function Map:new( filename, tilesets_dir, texturepacker_dir, _lua_dir )
 		end
     	tileset.sequence_data = buildSequences( map.cache.animations, tileset )
     	tileset.directory 	  = tilesets_dir and tilesets_dir .. '/' or ''
+		--
+		-- Kwik BookShelfEmbedded replaces tileset.image path '../../assets/images/p1/map.png' 
+		-- for 'book01en/images/p1/map.png' in _K.systemDir
+		---
+		
+		if tilesets_dir and systemDir and tileset.image then
+			tileset.image = tileset.image:gsub('../../assets', '')
+		end
     	buildProperties( map.cache.properties, tileset )
+
+		print(tileset.image)
 
     end
 
@@ -1301,7 +1321,7 @@ function Map:new( filename, tilesets_dir, texturepacker_dir, _lua_dir )
     texturepacker_dir = texturepacker_dir or tilesets_dir
 
     do  -- Create and cache all the image sheets
-	    loadTilesets( map.cache, map.tilesets )
+	    loadTilesets( map.cache, map.tilesets, systemDir, tilesets_dir )
 		--[[ -- this calls pcall inside. It causes to reload new() function 
 
 			loadTexturePacker( map.cache, texturepacker_dir )
@@ -1332,7 +1352,7 @@ function Map:new( filename, tilesets_dir, texturepacker_dir, _lua_dir )
 			for _, object in ipairs( objects ) do
 
 				-- From here we start process Tiled object into display object
-				createObject( map, object, layer )
+				createObject( map, object, layer, systemDir )
 
 			end
 
@@ -1343,7 +1363,7 @@ function Map:new( filename, tilesets_dir, texturepacker_dir, _lua_dir )
 			-- GID stands for global tile ID
 			for position, gid in ipairs( info.data ) do
 
-				if gid > 0 then createTile( map, position, gid, layer ) end
+				if gid > 0 then createTile( map, position, gid, layer, systemDir ) end
 
 			end
 
@@ -1397,7 +1417,7 @@ function Map:addSprite( layer, image_name, x, y )
 		y = y 
 	}
 
-	return createObject( self, object, layer )
+	return createObject( self, object, layer, self.systemDir )
 
 end
 
@@ -1406,10 +1426,10 @@ end
 -- @param image_path The file path to the image
 -- @param lua_path The file path to the lua file
 --------------------------------------------------------------------------------
-function Map:addTexturePack( image_path, lua_path )
+function Map:addTexturePack( image_path, lua_path, systemDir )
 
 	-- Check if image exists at path and crashes if it doesn't
-	assert( system.pathForFile( image_path, system.ResourceDirectory), 
+	assert( system.pathForFile( image_path, systemDir), 
 			'Texture packer image file does not exist at "'.. image_path 
 			.. '"' )
 

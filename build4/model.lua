@@ -1,3 +1,3 @@
  -- Tiled
-local pages = {}
+local pages = {isDownloadable = true, pageNum=1 }
 return pages
